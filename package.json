@@ -1,0 +1,41 @@
+{
+  "name": "koa-kit",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esbb48/koa-kit.git"
+  },
+  "keywords": [
+    "koa"
+  ],
+  "author": "esbb48",
+  "license": "MIT",
+  "engines": {
+    "node": "14.x"
+  },
+  "bugs": {
+    "url": "https://github.com/esbb48/koa-kit/issues"
+  },
+  "homepage": "https://github.com/esbb48/koa-kit#readme",
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/router": "^10.1.1",
+    "dotenv": "^10.0.0",
+    "joi": "^17.4.2",
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-compress": "^5.1.0",
+    "koa-helmet": "^6.1.0"
+  },
+  "devDependencies": {
+    "koa-logger": "^3.2.1",
+    "nodemon": "^2.0.14"
+  }
+}
