@@ -1,7 +1,7 @@
 module.exports = {
   User: {
     type: 'object',
-    required: ['id', 'name'],
+    required: ['name'],
     properties: {
       id: {
         type: 'integer',

@@ -24,6 +24,7 @@ function applyApiMiddleware(app) {
   app.use(
     koaSwagger({
       routePrefix: '/docs',
+      hideTopbar: true,
       swaggerOptions: {
         spec: getSpec(),
       },

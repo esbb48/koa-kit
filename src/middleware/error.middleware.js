@@ -5,8 +5,9 @@ module.exports = async (ctx, next) => {
     if (err.status >= 500) console.log('Error handler:', err);
     ctx.status = err.status || 500;
     ctx.body = {
-      status: 'failed',
+      status: 'error',
       message: err.message || 'Internal server error',
+      result: null,
     };
   }
 };

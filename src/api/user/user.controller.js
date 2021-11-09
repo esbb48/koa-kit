@@ -1,6 +1,11 @@
 'use strict';
 
 const generateId = require('../../utils/generateId.util');
+const {
+  responseOk,
+  responseAddOk,
+  responseListOk,
+} = require('../../utils/response.util');
 
 /**
  * Mock database, replace this with your db models import, required to perform query to your database.
@@ -29,13 +34,11 @@ exports.getOne = ctx => {
   const { userId } = ctx.params;
   const user = db.users.find(user => user.id === userId);
   ctx.assert(user, 404, "The requested user doesn't exist");
-  ctx.status = 200;
-  ctx.body = user;
+  return responseOk(ctx, user);
 };
 
 exports.getAll = async ctx => {
-  ctx.status = 200;
-  ctx.body = db.users;
+  return responseListOk(ctx, db.users.length, 1, db.users);
 };
 
 exports.createOne = async ctx => {
@@ -49,6 +52,5 @@ exports.createOne = async ctx => {
   };
   db.users.push(newUser);
   const createdUser = db.users.find(user => user.id === id);
-  ctx.status = 201;
-  ctx.body = createdUser;
+  return responseAddOk(ctx, createdUser);
 };

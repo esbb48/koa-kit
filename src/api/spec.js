@@ -6,52 +6,61 @@ const path = require('path');
 const baseName = path.basename(__filename);
 
 const getSpecDetail = () => {
-  let definitions = {};
+  let schemas = {};
   let paths = {};
   fs.readdirSync(__dirname)
     .filter(file => file.indexOf('.') < 0 && file !== baseName)
     .forEach(file => {
-      const { spec: apiSpec, definition } = require(path.join(__dirname, file));
-      definitions = { ...definitions, ...definition };
+      const { spec: apiSpec, schema } = require(path.join(__dirname, file));
+      schemas = { ...schemas, ...schema };
       paths = { ...paths, ...apiSpec };
     });
-
-  return { definitions, paths };
+  return { schemas, paths };
 };
 
 const getSpec = () => {
-  const { paths, definitions } = getSpecDetail();
+  const { paths, schemas } = getSpecDetail();
   return {
-    swagger: '2.0',
+    openapi: '3.0.0',
     info: {
       version: packageJson.version,
       title: 'Koa2 startkit API',
       description: 'Koa2 startkit API',
-      license: {
-        name: 'MIT',
-        url: 'https://opensource.org/licenses/MIT',
-      },
     },
-    // host,
-    basePath: '/api',
-    tags: [],
+    servers: [
+      {
+        url: 'http://localhost:3000/api/',
+      },
+    ],
     schemes: ['http', 'https'],
-    consumes: ['application/json'],
-    produces: ['application/json'],
     paths,
-    definitions: {
-      ApiResponse: {
-        type: 'object',
-        properties: {
-          status: {
-            type: 'string',
-          },
-          message: {
-            type: 'string',
-          },
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
         },
       },
-      ...definitions,
+      schemas,
+      parameters: {
+        limit: {
+          name: 'limit',
+          in: 'query',
+          required: true,
+          type: 'integer',
+          format: 'int32',
+          default: 10,
+        },
+        page: {
+          name: 'page',
+          in: 'query',
+          required: true,
+          type: 'integer',
+          format: 'int32',
+          default: 1,
+        },
+      },
+      responses: {},
     },
   };
 };

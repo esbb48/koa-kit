@@ -4,6 +4,7 @@ const tags = ['auth'];
 module.exports = {
   '/auth/login': {
     post: getRouteSpec({
+      hasAuth: false,
       tags,
       parameters: [],
       summary: 'Login',

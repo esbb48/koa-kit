@@ -1,73 +1,61 @@
-module.exports.jwtTokenHeader = {
-  name: 'rowsPerPage',
-  in: 'query',
-  description: 'rows per page',
-  required: true,
-  type: 'integer',
-  format: 'int64',
-  default: 10,
-};
 module.exports.paginationParams = [
   {
-    name: 'rowsPerPage',
-    in: 'query',
-    description: 'rows per page',
-    required: true,
-    type: 'integer',
-    format: 'int64',
-    default: 10,
+    $ref: '#/components/parameters/page',
   },
   {
-    name: 'page',
-    in: 'query',
-    description: 'page',
-    required: true,
-    type: 'integer',
-    format: 'int64',
-    default: 1,
+    $ref: '#/components/parameters/limit',
   },
 ];
 
-const getOkRes = ({ status, message, ...otherProps }) => ({
-  description: 'success',
-  schema: {
-    type: 'object',
-    properties: {
-      status: {
-        type: 'string',
-        example: status || '',
+const getRes = ({ description, result, message, status }) => ({
+  description,
+  content: {
+    'application/json:': {
+      schema: {
+        type: 'object',
+        properties: {
+          status: {
+            type: 'string',
+            example: status || '',
+          },
+          message: {
+            type: 'string',
+            example: message || '',
+          },
+          result,
+        },
       },
-      message: {
-        type: 'string',
-        example: message || '',
-      },
-      ...otherProps,
     },
   },
 });
 
+const getOkRes = (params = {}) =>
+  getRes({
+    message: null,
+    status: 'success',
+    ...params,
+  });
+
 module.exports.getOkRes = getOkRes;
 
 module.exports.getRouteSpec = ({
+  hasAuth = true,
   url,
   summary,
-  description,
   responses = {},
-  okRes = getOkRes({}),
+  okRes = getOkRes(),
   ...params
 }) => ({
   summary: summary || 'UNSET',
-  description,
   parameters: [],
+  security: hasAuth ? [{ BearerAuth: [] }] : [],
   responses: {
     200: okRes,
-    500: {
+    500: getRes({
       description: 'Internal server error',
-      schema: {
-        status: 'failed',
-        $ref: '#/definitions/ApiResponse',
-      },
-    },
+      status: 'error',
+      message: 'Internal server error',
+    }),
     ...responses,
   },
   ...params,

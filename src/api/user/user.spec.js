@@ -17,34 +17,33 @@ module.exports = {
           description: 'User object that needs to be added to the store!',
           required: true,
           schema: {
-            $ref: '#/definitions/User',
+            $ref: '#/components/schemas/User',
           },
         },
       ],
       okRes: getOkRes({
         result: {
-          $ref: '#/definitions/User',
+          $ref: '#/components/schemas/User',
         },
       }),
     }),
   },
   '/user/{userId}': {
+    parameters: [
+      {
+        name: 'userId',
+        in: 'path',
+        description: 'ID of user to return',
+        required: true,
+        type: 'string',
+      },
+    ],
     get: getRouteSpec({
       tags,
       summary: 'Get User',
-      parameters: [
-        {
-          name: 'userId',
-          in: 'path',
-          description: 'ID of user to return',
-          required: true,
-          type: 'integer',
-          format: 'int64',
-        },
-      ],
       okRes: getOkRes({
         result: {
-          $ref: '#/definitions/User',
+          $ref: '#/components/schemas/User',
         },
       }),
     }),
@@ -66,13 +65,13 @@ module.exports = {
           description: 'User object that needs to be added to the store',
           required: true,
           schema: {
-            $ref: '#/definitions/User',
+            $ref: '#/components/schemas/User',
           },
         },
       ],
       okRes: getOkRes({
         result: {
-          $ref: '#/definitions/User',
+          $ref: '#/components/schemas/User',
         },
       }),
     }),
@@ -104,13 +103,13 @@ module.exports = {
             total: {
               type: 'number',
             },
-            rowsPerPage: {
+            limit: {
               type: 'number',
             },
             rows: {
               type: 'array',
               items: {
-                $ref: '#/definitions/User',
+                $ref: '#/components/schemas/User',
               },
             },
           },

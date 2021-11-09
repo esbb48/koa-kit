@@ -8,7 +8,7 @@ module.exports = Router => {
   });
   router
     .get('/:userId', controller.getOne)
-    .get('/', controller.getAll)
+    .post('/list', controller.getAll)
     .post('/', controller.createOne);
 
   return router;
