@@ -4,9 +4,8 @@ const controller = require('./user.controller');
 
 module.exports = Router => {
   const router = new Router({
-    prefix: `/users`,
+    prefix: `/user`,
   });
-
   router
     .get('/:userId', controller.getOne)
     .get('/', controller.getAll)

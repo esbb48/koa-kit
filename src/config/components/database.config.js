@@ -9,19 +9,13 @@ const envSchema = joi
   .object({
     DB_USER: joi.string(),
     DB_HOST: joi.string(),
-    DB_PASSWORD: joi
-      .string()
-      .optional()
-      .empty(''),
+    DB_PASSWORD: joi.string().optional().empty(''),
     DB_DATABASE: joi.string(),
     DB_PORT: joi.number(),
   })
   .unknown()
   .required();
 
-/**
- * Validate the env variables using joi.validate()
- */
 const { error, value: envVars } = envSchema.validate(process.env);
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
