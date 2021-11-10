@@ -1,12 +1,20 @@
+const HTTPS_STATUS_CODE = {
+  DatabaseError: 400,
+  ForbiddenError: 403,
+  NotFoundError: 404,
+  ParamsError: 400,
+  UnauthorizedError: 401,
+};
+
 module.exports = async (ctx, next) => {
   try {
     await next();
-  } catch (err) {
-    if (err.status >= 500) console.log('Error handler:', err);
-    ctx.status = err.status || 500;
+  } catch (error) {
+    const errorType = error.name;
+    ctx.status = HTTPS_STATUS_CODE[errorType] || 500;
     ctx.body = {
-      status: 'error',
-      message: err.message || 'Internal server error',
+      status: errorType,
+      message: error.message || 'Internal server error',
       result: null,
     };
   }

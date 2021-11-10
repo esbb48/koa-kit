@@ -42,12 +42,17 @@ module.exports.getRouteSpec = ({
   hasAuth = true,
   url,
   summary,
+  requestBody = {},
   responses = {},
   okRes = getOkRes(),
   ...params
 }) => ({
   summary: summary || 'UNSET',
-  parameters: [],
+  requestBody: {
+    content: {
+      'application/json:': { schema: requestBody },
+    },
+  },
   security: hasAuth ? [{ BearerAuth: [] }] : [],
   responses: {
     200: okRes,

@@ -50,25 +50,9 @@ module.exports = {
     put: getRouteSpec({
       tags,
       summary: 'Update User',
-      parameters: [
-        {
-          name: 'userId',
-          in: 'path',
-          description: 'ID of user to return',
-          required: true,
-          type: 'integer',
-          format: 'int64',
-        },
-        {
-          in: 'body',
-          name: 'body',
-          description: 'User object that needs to be added to the store',
-          required: true,
-          schema: {
-            $ref: '#/components/schemas/User',
-          },
-        },
-      ],
+      requestBody: {
+        $ref: '#/components/schemas/User',
+      },
       okRes: getOkRes({
         result: {
           $ref: '#/components/schemas/User',
@@ -78,16 +62,6 @@ module.exports = {
     delete: getRouteSpec({
       tags,
       summary: 'Delete User',
-      parameters: [
-        {
-          name: 'userId',
-          in: 'path',
-          description: 'ID of user to return',
-          required: true,
-          type: 'integer',
-          format: 'int64',
-        },
-      ],
       okRes: getOkRes({}),
     }),
   },

@@ -8,6 +8,7 @@ module.exports = Router => {
   });
   router
     .get('/:userId', controller.getOne)
+    .put('/:userId', controller.updateOne)
     .post('/list', controller.getAll)
     .post('/', controller.createOne);
 
